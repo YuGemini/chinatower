@@ -3,6 +3,7 @@ package com.vastio.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -22,6 +23,8 @@ import java.util.Map;
  * @author xlch
  * @Date 2018-03-02 10:01
  */
+
+@Data
 @Configuration
 @ConfigurationProperties(prefix = "spring.datasource")
 public class DruidConfig {
@@ -33,7 +36,7 @@ public class DruidConfig {
     private String password;
 
     @Bean
-    public DataSource dataSource()throws SQLException {
+    public DataSource dataSource() throws SQLException {
         DruidDataSource dataSource = new DruidDataSource(); //NOSONAR
         dataSource.setUrl(url);
         dataSource.setUsername(username);
@@ -68,29 +71,5 @@ public class DruidConfig {
         filterRegistrationBean.addUrlPatterns("/*");
         filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
         return filterRegistrationBean;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

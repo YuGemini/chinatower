@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vastio.mapper.StandBookMapper">
+    <delete id="deleteStandBook">
+        delete from stand_book
+    </delete>
+    <select id="findStandBook" resultType="com.vastio.bean.model.StandBook"
+            parameterType="com.vastio.bean.request.RequestCondition">
+        select * from stand_book
+        <where>
+            <if test="param.region != null">
+                region = #{param.region}
+            </if>
+            <if test="param.code != null">
+                code like '%#{param.code}%'
+            </if>
+            <if test="param.site_name != null">
+                site_name like '%#{param.siteName}%'
+            </if>
+            <if test="param.startTime != null">
+                <![CDATA[pay_time >= to_date(#{param.startTime,jdbcType=DATE},'yyyy-MM-dd hh24:mi:ss')]]>
+            </if>
+            <if test="param.endTime != null">
+                <![CDATA[pay_time <= to_date(#{param.endTime,jdbcType=DATE},'yyyy-MM-dd hh24:mi:ss')]]>
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -11,6 +11,6 @@ public interface UserMapper {
 
     List<User> findAll();
 
-    List<User> finds(@Param("username")String username, @Param("roleId")int roleId);
+    User findByName(@Param("username") String username);
 
 }

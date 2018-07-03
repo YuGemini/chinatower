@@ -27,7 +27,7 @@ public class UserService {
         return userMapper.findAll();
     }
 
-    public List<User> finds(String username, int roleId) {
-        return userMapper.finds(username, roleId);
+    public User findByName(String username) {
+        return userMapper.findByName(username);
     }
 }
