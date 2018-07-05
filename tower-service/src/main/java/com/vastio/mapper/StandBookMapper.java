@@ -17,5 +17,11 @@ import java.util.List;
 public interface StandBookMapper {
     List<StandBook> findStandBook(@Param("param") RequestCondition param);
 
+    List<StandBook> findToPayStandBook();
+
+    List<StandBook> findOverTimePayStandBook();
+
+    List<StandBook>  findRenewContractStandBook();
+
     void deleteStandBook();
 }

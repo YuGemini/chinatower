@@ -4,25 +4,45 @@
     <delete id="deleteStandBook">
         delete from stand_book
     </delete>
-    <select id="findStandBook" resultType="com.vastio.bean.model.StandBook"
-            parameterType="com.vastio.bean.request.RequestCondition">
-        select * from stand_book
+    <select id="findStandBook" resultType="com.vastio.bean.model.StandBook">
+        select * from standing_book
         <where>
             <if test="param.region != null">
                 region = #{param.region}
             </if>
             <if test="param.code != null">
-                code like '%#{param.code}%'
+                and code like '%${param.code}%'
             </if>
-            <if test="param.site_name != null">
-                site_name like '%#{param.siteName}%'
+            <if test="param.siteName != null">
+                and site_name like '%${param.siteName}%'
             </if>
             <if test="param.startTime != null">
-                <![CDATA[pay_time >= to_date(#{param.startTime,jdbcType=DATE},'yyyy-MM-dd hh24:mi:ss')]]>
+                and <![CDATA[TIME_TO_SEC(pay_time) >= #{param.startTime}]]>
             </if>
             <if test="param.endTime != null">
-                <![CDATA[pay_time <= to_date(#{param.endTime,jdbcType=DATE},'yyyy-MM-dd hh24:mi:ss')]]>
+                and <![CDATA[TIME_TO_SEC(pay_time) <= #{param.endTime}]]>
             </if>
         </where>
+    </select>
+    <select id="findToPayStandBook" resultType="com.vastio.bean.model.StandBook">
+        select *
+        FROM standing_book
+        where pay_time is null and (datediff(end, now()) between 0 and 60)
+    </select>
+    <select id="findOverTimePayStandBook" resultType="com.vastio.bean.model.StandBook">
+        select *
+        FROM standing_book
+        where pay_time is null and (datediff(end, now()) &lt; 0)
+    </select>
+    <select id="findRenewContractStandBook" resultType="com.vastio.bean.model.StandBook">
+        SELECT c.*
+        FROM (SELECT *
+              from (SELECT
+                        CODE,
+                        MAX(CONTRACT_END) CONTRACT_END
+                    FROM standing_book
+                    GROUP BY CODE) a
+              WHERE DATEDIFF(a.CONTRACT_END, NOW()) &lt; 60)
+             b LEFT JOIN standing_book c on c.CODE = b.CODE AND c.CONTRACT_END = b.CONTRACT_END
     </select>
 </mapper>

@@ -15,4 +15,6 @@ public class RequestCondition {
     private String siteName;
     private String startTime;
     private String endTime;
+    private int curPage;
+    private int pageSize;
 }

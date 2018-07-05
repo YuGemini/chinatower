@@ -2,6 +2,7 @@ package com.vastio.controller;
 
 import com.vastio.VastioException;
 import com.vastio.bean.base.ApiError;
+import com.vastio.bean.base.ResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,9 @@ public class RestControllerAdvice {
 
     @ExceptionHandler
     @ResponseBody
-    public ApiResponse generalError(Exception ex, HttpServletRequest request) {
+    public ResponseResult generalError(Exception ex, HttpServletRequest request) {
         LOGGER.error("Error 500: {}, {}", ex.getMessage(), ex.getStackTrace()[0]);
-        ApiResponse error = new ApiResponse();
+        ResponseResult error = new ResponseResult();
         error.setCode(500);
         error.setMessage("服务器内部错误");
         return error;
@@ -52,9 +53,9 @@ public class RestControllerAdvice {
 
     @ExceptionHandler(VastioException.class)
     @ResponseBody
-    public ApiResponse customException(Exception ex, HttpServletRequest request) {
+    public ResponseResult customException(Exception ex, HttpServletRequest request) {
         LOGGER.error("custom exception: {}, {}", ex.getMessage(), ex.getStackTrace()[0]);
-        ApiResponse error = new ApiResponse();
+        ResponseResult error = new ResponseResult();
         error.setCode(400);
         error.setMessage(ex.getMessage());
         return error;

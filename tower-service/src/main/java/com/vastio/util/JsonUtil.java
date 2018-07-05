@@ -65,27 +65,4 @@ public final class JsonUtil {
             throw new VastioException("json 写入出错");
         }
     }
-
-
-    public static void main(String[]args) {
-        User user = new User();
-        user.setUsername("admin");
-        user.setJobTitle("局长");
-        String result = objects2Json(user);
-        LOGGER.debug("result is {}", result);
-        User user1 = json2Object(result, User.class);
-        LOGGER.debug("object is {}, ", user1.toString());
-        User user2 = new User();
-        user2.setUsername("system");
-        user2.setJobTitle("市长");
-        List<User> users = new ArrayList<>();
-        users.add(user);
-        users.add(user2);
-        String results2 = objects2Json(users);
-        LOGGER.debug("results is {}", results2);
-        List<User> users1 = json2ObjectList(results2, User.class);
-        LOGGER.debug("users2 is {}", users1.toString());
-
-    }
-
 }

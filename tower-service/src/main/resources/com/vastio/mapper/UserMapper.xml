@@ -15,7 +15,7 @@
         FROM BASE_USER
         <where>
             <if test="username != null">
-                username = #{username}
+               username = #{username}
             </if>
         </where>
     </select>

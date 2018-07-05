@@ -11,20 +11,11 @@ import java.util.Date;
  */
 
 @Data
-public class StandBook {
-    private int id;
-    private String region;
-    private String code;
+public class StandBook extends ContractInfo {
     private String attribute;
-    private String siteName;
-    private String contractName;
     private String phoneNumber;
     private String ownerName;
-    private Date contractStart;
-    private Date contractEnd;
     private Date payTime;
-    private Date start;
-    private Date end;
     private double rent;
     private double tax;
 }
