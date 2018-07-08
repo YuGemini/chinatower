@@ -24,4 +24,12 @@ public interface StandBookMapper {
     List<StandBook>  findRenewContractStandBook();
 
     void deleteStandBook();
+
+    void addStandBook(@Param("standBook") StandBook standBook);
+
+    void addAllStandBooks(List<StandBook> standBooks);
+
+    void deleteStandBookById(@Param("id") int id);
+
+    void updateStandBook(@Param("standBook") StandBook standBook);
 }

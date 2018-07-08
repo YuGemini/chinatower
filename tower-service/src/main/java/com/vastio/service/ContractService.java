@@ -41,4 +41,16 @@ public class ContractService {
     public List<RenewContract> getRenewContract(String siteName) {
         return contractMapper.getRenewContract(siteName);
     }
+
+    public void deleteStandBookById(int id) {
+        standBookMapper.deleteStandBookById(id);
+    }
+
+    public void addStandBook(StandBook standBook) {
+        standBookMapper.addStandBook(standBook);
+    }
+
+    public void updateStandBook(StandBook standBook) {
+        standBookMapper.updateStandBook(standBook);
+    }
 }

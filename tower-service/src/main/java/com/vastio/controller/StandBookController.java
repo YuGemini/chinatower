@@ -35,6 +35,24 @@ public class StandBookController extends BaseController {
         return success(pageInfo.getList(), (int) pageInfo.getTotal());
     }
 
+    @PostMapping(value = "/standBook")
+    public ResponseResult<String> addStandBook(@RequestBody StandBook standBook) {
+        contractService.addStandBook(standBook);
+        return success("success");
+    }
+
+    @DeleteMapping(value = "/standBook/{id}")
+    public ResponseResult<String> deleteStandBook(@PathVariable("id") int id) {
+        contractService.deleteStandBookById(id);
+        return success("success");
+    }
+
+    @PutMapping(value = "/standBook")
+    public ResponseResult<String> updateStandBook( StandBook standBook) {
+        contractService.updateStandBook(standBook);
+        return success("success");
+    }
+
     @GetMapping(value = "/overTimeContract")
     public ResponseResult<OverTimeContract> getOverTimeContract(@RequestParam("siteName") String siteName,
                                                                 @RequestParam("curPage") int curPage,
