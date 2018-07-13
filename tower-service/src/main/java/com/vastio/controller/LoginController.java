@@ -11,12 +11,11 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 登入登出
@@ -29,16 +28,18 @@ import javax.validation.Valid;
 public class LoginController extends BaseController {
 
     @PostMapping(value = "/login")
-    public ResponseResult<String> login(@Valid LoginForm loginForm, BindingResult result) {
+    public ResponseResult<Map> login(@RequestBody LoginForm loginForm, BindingResult result) {
         if (result.hasErrors()) {
             return error("用户信息不合法", 400);
         }
+        Map<String, Object> res = new HashMap<>();
         String username = loginForm.getUsername();
         String pd = loginForm.getPassword();
         UsernamePasswordToken token = new UsernamePasswordToken(username, pd);
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
+            res.put("token", subject.getSession().getId());
         } catch (UnknownAccountException u) {
             return error("该用户不存在", 400);
         } catch (IncorrectCredentialsException i) {
@@ -48,7 +49,7 @@ public class LoginController extends BaseController {
         } catch (Exception e) {
             return error("服务内部错误", 400);
         }
-        return success("login success");
+        return successResult(res, "login success");
     }
 
     @GetMapping(value = "/logout")

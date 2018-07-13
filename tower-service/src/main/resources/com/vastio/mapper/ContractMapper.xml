@@ -42,7 +42,7 @@
     <select id="getToPayContract" resultType="com.vastio.bean.model.ContractInfo">
         select * from to_pay_contract
         <where>
-            <if test="siteName != null||siteName != ''">
+            <if test="siteName != null and siteName != ''">
                 site_name like '%${siteName}%'
             </if>
         </where>
@@ -50,7 +50,7 @@
     <select id="getOverPayContract" resultType="com.vastio.bean.model.OverTimeContract">
         select * from overtime_contract
         <where>
-            <if test="siteName != null||siteName != ''">
+            <if test="siteName != null and siteName != ''">
                 site_name like '%${siteName}%'
             </if>
         </where>
@@ -58,7 +58,7 @@
     <select id="getRenewContract" resultType="com.vastio.bean.model.RenewContract">
         select * from renew_contract
         <where>
-            <if test="siteName != null||siteName != ''">
+            <if test="siteName != null and siteName != ''">
                 site_name like '%${siteName}%'
             </if>
         </where>

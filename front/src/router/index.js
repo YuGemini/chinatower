@@ -3,14 +3,15 @@ import Router from 'vue-router';
 import store from '../store/index.js'
 import Login from '@/components/common/Login'
 import Home from '@/components/common/Home';
-import DashBoard from '@/components/page/DashBoard';
+import StatisticCharts from '@/components/page/StatisticCharts';
 import AmCharts from '@/components/page/BasicCharts';
-import FormInput from '@/components/page/FormInput';
+import SystemControl from '@/components/page/SystemControl';
 import FormLayouts from '@/components/page/FormLayouts';
 import BasicTables from '@/components/page/BasicTables';
-import EditorPage from '@/components/page/EditorPage';
-import MarkdownPage from '@/components/page/MarkdownPage';
-import TodoList from '@/components/page/TodoListPage';
+import StandBook from '@/components/page/StandBook';
+import ToPayContract from '@/components/page/ToPayContract';
+import RenewContract from '@/components/page/RenewContract';
+import OverTimeContract from '@/components/page/OverTimeContract';
 
 Vue.use(Router)
 
@@ -19,7 +20,7 @@ const router = new Router({
   base: __dirname,
   routes: [
     {
-      path: '/',
+      path: '/login',
       component: Login,
       name: 'login'
     },
@@ -29,41 +30,63 @@ const router = new Router({
       meta: {
         requiresAuth: true
       },
-      redirect: '/workDest',
+      redirect: '/StatisticCharts',
       children: [
         {
-          path: '',
-          component: DashBoard,
+          path: '/StatisticCharts',
+          component: StatisticCharts,
+          name: '统计图表信息',
           meta: {
             requiresAuth: true
           }
         }, {
-          path: '/DashBoard',
-          component: DashBoard,
+          path: '/StandBook',
+          component: StandBook,
           meta: {
             requiresAuth: true
           }
         }, {
-          path: '/EditorPage',
-          component: EditorPage
+          path: '/ToPayContract',
+          component: ToPayContract,
+          meta: {
+            requiresAuth: true
+          }
         }, {
-          path: '/MarkdownPage',
-          component: MarkdownPage
+          path: '/RenewContract',
+          component: RenewContract,
+          meta: {
+            requiresAuth: true
+          }
+        }, {
+          path: '/OverTimeContract',
+          component: OverTimeContract,
+          meta: {
+            requiresAuth: true
+          }
         }, {
           path: '/BasicCharts',
-          component: AmCharts
+          component: AmCharts,
+          meta: {
+            requiresAuth: true
+          }
         }, {
-          path: '/FormInput',
-          component: FormInput
+          path: '/SystemControl',
+          component: SystemControl,
+          meta: {
+            requiresAuth: true
+          }
         }, {
           path: '/FormLayouts',
-          component: FormLayouts
+          component: FormLayouts,
+          meta: {
+            requiresAuth: true
+          }
         }, {
           path: '/BasicTables',
-          component: BasicTables
-        }, {
-          path: '/TodoList',
-          component: TodoList
+          component: BasicTables,
+          meta: {
+            requiresAuth: true
+          }
         }
 
 

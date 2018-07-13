@@ -16,12 +16,13 @@ public class BaseController {
         return responseResult;
     }
 
-    protected <T> ResponseResult<T> successResult(T result) {
+    protected <T> ResponseResult<T> successResult(T result, String message) {
         ResponseResult<T> responseResult = new ResponseResult<>();
         responseResult.setCode(HttpServletResponse.SC_OK);
         List<T> list = new ArrayList<>();
         list.add(result);
         responseResult.setResults(list);
+        responseResult.setMessage(message);
         return responseResult;
     }
 

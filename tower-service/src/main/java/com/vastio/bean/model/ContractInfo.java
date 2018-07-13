@@ -1,5 +1,6 @@
 package com.vastio.bean.model;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,7 +12,9 @@ import java.util.Date;
  */
 
 @Data
-public class ContractInfo extends RenewContract{
+public class ContractInfo extends RenewContract {
+    @Excel(name = "起始日期")
     private Date start;
+    @Excel(name = "终止日期")
     private Date end;
 }

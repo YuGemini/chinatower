@@ -10,7 +10,7 @@
         </encoder>
     </appender>
     <springProfile name="dev">
-        <property name="LOG_HOME" value="D:\\logs"/>
+        <property name="LOG_HOME" value="C:\\logs"/>
         <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>${LOG_HOME}/${PROJECT_NAME}/${PROJECT_NAME}.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">

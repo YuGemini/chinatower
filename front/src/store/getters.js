@@ -44,16 +44,5 @@ export default {
       return currentSchema.data.extraObj[extra];
     }
     return undefined;
-  },
-  getKeyAttr: (state, { getAttr }) => label => {
-    return getAttr(label);
-  },
-  //字典翻译
-  dictValue: (state) => (dictName, key ) => {
-  	console.log(key)
-  		if(dictName in state.dicts){
-  			return state.dicts[dictName][key] || key;
-    }
-    return key;
   }
 };

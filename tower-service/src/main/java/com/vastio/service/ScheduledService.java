@@ -7,6 +7,7 @@ import com.vastio.mapper.StandBookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,8 @@ public class ScheduledService {
     @Autowired
     private StandBookMapper standBookMapper;
 
-    @Scheduled(cron = "0 0/10 * * * *")
+    @Scheduled(cron = "0 0 1 * * ?")
+    @Transactional
     public void timer() {
         contractMapper.deleteAllToPayContract();
         contractMapper.deleteAllRenewContract();

@@ -1,6 +1,9 @@
 <template>
   <div class="login-wrapper">
-    <div class="logo"></div>
+    <el-row>
+      <el-col :span="24"><div class="logo"></div></el-col>
+    </el-row>
+
     <div class="container">
       <i-form ref="formLogin" :model="formLogin" :rules="formLoginRules" class="card-box">
         <Form-item class="formLogin-title">
@@ -74,14 +77,14 @@
               .then(({
                        data
                      }) => {
-                if (data.message !== "验证通过") {
+                if (data.message !== "login success") {
                   this.$Message.error('账号或密码不正确，请重新输入');
                   //alert('账号或密码不正确，请重新输入')
                   return;
                 }
                 //账号存在
-                if (data.message === "验证通过") {
-                  let token = data.token;
+                if (data.message === "login success") {
+                  let token = data.results[0].token;
                   //let username = data.username;
                   this.$store.commit('UserLogin', token);
                   //this.$store.commit('UserName', username);

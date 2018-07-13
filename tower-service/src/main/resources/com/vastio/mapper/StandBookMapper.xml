@@ -54,20 +54,20 @@
     <select id="findStandBook" resultType="com.vastio.bean.model.StandBook">
         select * from standing_book
         <where>
-            <if test="param.region != null">
+            <if test="param.region != null and param.region != ''">
                 region = #{param.region}
             </if>
-            <if test="param.code != null">
+            <if test="param.code != null and param.code != ''">
                 and code like '%${param.code}%'
             </if>
-            <if test="param.siteName != null">
+            <if test="param.siteName != null and param.siteName != ''">
                 and site_name like '%${param.siteName}%'
             </if>
-            <if test="param.startTime != null">
-                and <![CDATA[TIME_TO_SEC(pay_time) >= #{param.startTime}]]>
+            <if test="param.startTime != null and param.startTime != ''">
+                and <![CDATA[UNIX_TIMESTAMP(pay_time)*1000 >= #{param.startTime}]]>
             </if>
-            <if test="param.endTime != null">
-                and <![CDATA[TIME_TO_SEC(pay_time) <= #{param.endTime}]]>
+            <if test="param.endTime != null and param.endTime != ''">
+                and <![CDATA[UNIX_TIMESTAMP(pay_time)*1000 <= #{param.endTime}]]>
             </if>
         </where>
     </select>
@@ -91,5 +91,27 @@
                     GROUP BY CODE) a
               WHERE DATEDIFF(a.CONTRACT_END, NOW()) &lt; 60)
              b LEFT JOIN standing_book c on c.CODE = b.CODE AND c.CONTRACT_END = b.CONTRACT_END
+    </select>
+    <select id="findOrderByCode" resultType="java.util.Map">
+        SELECT
+            CODE,
+            MAX(SITE_NAME) siteName,
+            SUM(RENT)      rent,
+            SUM(TAX)       tax
+        FROM standing_book
+        GROUP BY CODE
+    </select>
+    <select id="findOrderByYear" resultType="java.util.Map">
+        SELECT
+            year,
+            SUM(rent) rent,
+            SUM(tax)  tax
+        FROM (SELECT
+                  rent,
+                  tax,
+                  YEAR(PAY_TIME) year
+              FROM standing_book
+              WHERE PAY_TIME is not null) a
+        GROUP BY year
     </select>
 </mapper>

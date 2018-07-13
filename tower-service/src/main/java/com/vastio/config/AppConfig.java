@@ -2,10 +2,12 @@ package com.vastio.config;
 
 import com.vastio.security.ApiFilter;
 import com.vastio.security.BasicRealm;
+import com.vastio.security.SessionManager;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.mgt.WebSecurityManager;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +30,18 @@ import java.util.Map;
  */
 @Configuration
 public class AppConfig {
+    @Bean
+    public SessionManager sessionManager() {
+        return new SessionManager();
+    }
 
+    @Bean
+    public WebSecurityManager securityManager() {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager(realm());
+        SessionManager sessionManager = new SessionManager();
+        securityManager.setSessionManager(sessionManager);
+        return securityManager;
+    }
     /* ///////////////////////////////
    /*     shiro   配置             /
    /*/ ////////////////////////////
@@ -59,12 +72,12 @@ public class AppConfig {
         return shiroFilter;
     }
 
-    @Bean
-    public DefaultWebSecurityManager securityManager() {
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(this.realm());
-        return securityManager;
-    }
+//    @Bean
+//    public DefaultWebSecurityManager securityManager() {
+//        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+//        securityManager.setRealm(this.realm());
+//        return securityManager;
+//    }
 
     @Bean
     public Realm realm() {
