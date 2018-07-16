@@ -6,8 +6,12 @@
           <span class="customFont">所属区域 :</span>
         </el-col>
         <el-col :xs="7" :sm="7" :md="7" :lg="7">
-          <Input v-model="filter.region" style="width: 200px">
-          </Input>
+          <el-select v-model="filter.region" placeholder="请选择区域">
+            <el-option label="乐平市" value="乐平市"></el-option>
+            <el-option label="昌江区" value="昌江区"></el-option>
+            <el-option label="浮梁县" value="浮梁县"></el-option>
+            <el-option label="珠山区" value="珠山区"></el-option>
+          </el-select>
         </el-col>
         <el-col :xs="3" :sm="3" :md="3" :lg="3">
           <span class="customFont">站点编码 :</span>
@@ -45,6 +49,86 @@
           <Button type="primary" @click="reset">重置</Button>
         </el-col>
       </el-row>
+    </div>
+    <div>
+      <el-dialog title="台账信息" :visible.sync="dialogFormVisible" @close="closeDialog">
+        <el-form :model="form" :inline="true" label-position="right" label-width="100px" class="demo-from-expand">
+          <el-form-item label="所属区域">
+            <el-select v-model="form.region" placeholder="请选择区域">
+              <el-option label="乐平市" value="乐平市"></el-option>
+              <el-option label="昌江区" value="昌江区"></el-option>
+              <el-option label="浮梁县" value="浮梁县"></el-option>
+              <el-option label="珠山区" value="珠山区"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="站点编码">
+            <el-input v-model="form.code" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="站点名称">
+            <el-input v-model="form.siteName" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="合同属性">
+            <el-input v-model="form.attribute" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="合同名称">
+            <el-input v-model="form.contractName" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="业主">
+            <el-input v-model="form.ownerName" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="联系方式">
+            <el-input v-model="form.phoneNumber" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="合同开始时间">
+            <el-date-picker
+              v-model="form.contractStart"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="合同结束时间">
+            <el-date-picker
+              v-model="form.contractEnd"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="付款时间">
+            <el-date-picker
+              v-model="form.payTime"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="开始时间">
+            <el-date-picker
+              v-model="form.start"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="结束时间">
+            <el-date-picker
+              v-model="form.end"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="房租">
+            <el-input v-model="form.rent" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="税金">
+            <el-input v-model="form.tax" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="ID" style="display:none">
+            <span>{{ form.id }}</span>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="closeDialog">取 消</el-button>
+          <el-button type="primary" @click="editStandBook">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
     <div>
       <el-table
@@ -123,7 +207,7 @@
           width="100">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">删除</el-button>
+            <el-button @click="deleteStandBook(scope.row.id)" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -158,6 +242,21 @@
     width: 50%;
   }
 
+  .demo-from-expand {
+    font-size: 0;
+  }
+
+  .demo-from-expand label {
+    width: 120px;
+    color: #99a9bf;
+  }
+
+  .demo-from-expand .el-form-item {
+    margin-right: 0 !important;
+
+    width: 50%;
+  }
+
   .el-pagination {
     float: right;
     margin-top: 15px;
@@ -171,7 +270,43 @@
   export default {
     methods: {
       handleClick(row) {
-        console.log(row);
+        this.dialogFormVisible = true;
+        this.form = row;
+      },
+      editStandBook() {
+        api.updateStandBook(this.form).then(res => {
+          if (res.data.message === 'success') {
+            this.$message.info("更新成功！");
+            this.search();
+          } else {
+            this.$message.warning("更新失败！");
+          }
+        })
+        this.search();
+        this.dialogFormVisible = false;
+      },
+      closeDialog() {
+        this.dialogFormVisible = false;
+        this.search();
+      },
+      deleteStandBook(id) {
+        this.$Modal.confirm({
+          title: '删除台账',
+          content: '<p>确认要删除该条台账信息吗?</p>',
+          onOk: () => {
+            api.deleteStandBook(id).then(res => {
+              if (res.data.message === 'success') {
+                this.$message.info("删除成功！");
+                this.search();
+              } else {
+                this.$message.warning("删除失败！");
+              }
+            })
+          },
+          onCancel: () => {
+          }
+        });
+
       },
       getStandBookList(param) {
         var _getAll = this;
@@ -189,29 +324,30 @@
         this.filter.curPage = val;
         this.getStandBookList({params: this.filter});
       },
-      handleChange(date1){
-        this.filter.startTime=date1[0];
-        this.filter.endTime=date1[1];
+      handleChange(date1) {
+        this.filter.startTime = date1[0];
+        this.filter.endTime = date1[1];
       },
       search() {
-        if(this.filter.curPage===1){
+        if (this.filter.curPage === 1) {
           this.getStandBookList({params: this.filter});
-        }else{
+        } else {
           this.filter.curPage = 1;
         }
       },
-      reset(){
-        this.time=[];
-        this.filter.region='';
-        this.filter.siteName='';
-        this.filter.code='';
-        this.filter.startTime='';
-        this.filter.endTime='';
+      reset() {
+        this.time = [];
+        this.filter.region = '';
+        this.filter.siteName = '';
+        this.filter.code = '';
+        this.filter.startTime = '';
+        this.filter.endTime = '';
 
       }
     },
     data: function () {
       return {
+        dialogFormVisible: false,
         standBookList: [],
         total: 0,
         time: [],
@@ -223,12 +359,32 @@
           code: '',
           startTime: '',
           endTime: ''
-        }
+        },
+        form: {
+          region: '',
+          siteName: '',
+          id: '',
+          code: '',
+          contractNmae: '',
+          attribute: '',
+          ownerName: '',
+          phoneNumber: '',
+          contractStart: '',
+          contractEnd: '',
+          payTime: "",
+          start: '',
+          end: '',
+          rent: '',
+          tax: ''
+        },
       }
     },
     filters: {
       //时间格式化
       formatDate(allupdatetime) {
+        if (allupdatetime === null || allupdatetime === '') {
+          return ''
+        }
         var date = new Date(allupdatetime);
         return moment(date).format('YYYY-MM-DD');
       }

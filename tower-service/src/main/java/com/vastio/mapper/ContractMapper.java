@@ -19,17 +19,20 @@ import java.util.List;
 public interface ContractMapper {
     List<ContractInfo> getToPayContract(@Param("siteName") String siteName);
 
-    List<OverTimeContract> getOverPayContract(@Param("siteName") String siteName);
+    List<OverTimeContract> getOverPayContract(@Param("siteName") String siteName,
+                                              @Param("flag") Integer flag);
 
     List<RenewContract> getRenewContract(@Param("siteName") String siteName);
 
     void createToPayContract(List<StandBook> standBooks);
 
-    void createOverTimeContract(List<OverTimeContract> standBooks);
+    void createOverTimeContract(List<StandBook> standBooks);
 
     void deleteAllToPayContract();
 
     void deleteAllRenewContract();
+
+    void deleteAllOverTimeContract();
 
     void createRenewContract(List<StandBook> standBooks);
 }

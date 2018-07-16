@@ -14,13 +14,13 @@
     </insert>
     <insert id="createOverTimeContract">
         INSERT INTO overtime_contract
-        (region, code, site_name,contract_name,contract_start,contract_end,start,end)
+        (region, code, site_name,contract_name,contract_start,contract_end,start,end,pay_time)
         VALUES
         <foreach collection="list" item="standBook" separator=",">
             (#{standBook.region}, #{standBook.code},
             #{standBook.siteName},#{standBook.contractName},
             #{standBook.contractStart},#{standBook.contractEnd},
-            #{standBook.start},#{standBook.end})
+            #{standBook.start},#{standBook.end},#{standBook.payTime})
         </foreach>
     </insert>
     <insert id="createRenewContract">
@@ -39,6 +39,9 @@
     <delete id="deleteAllRenewContract">
         delete from renew_contract
     </delete>
+    <delete id="deleteAllOverTimeContract">
+        delete from overtime_contract
+    </delete>
     <select id="getToPayContract" resultType="com.vastio.bean.model.ContractInfo">
         select * from to_pay_contract
         <where>
@@ -52,6 +55,12 @@
         <where>
             <if test="siteName != null and siteName != ''">
                 site_name like '%${siteName}%'
+            </if>
+            <if test="flag == 0">
+                and pay_time is null
+            </if>
+            <if test="flag == 1">
+                and pay_time is not null
             </if>
         </where>
     </select>

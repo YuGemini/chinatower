@@ -22,7 +22,7 @@ public interface StandBookMapper {
 
     List<StandBook> findOverTimePayStandBook();
 
-    List<StandBook>  findRenewContractStandBook();
+    List<StandBook> findRenewContractStandBook();
 
     void deleteStandBook();
 
@@ -34,6 +34,11 @@ public interface StandBookMapper {
 
     void updateStandBook(@Param("standBook") StandBook standBook);
 
-    List<Map> findOrderByCode();
     List<Map> findOrderByYear();
+
+    long findOverTime();
+
+    long findToPay();
+
+    long findRenew();
 }

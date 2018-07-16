@@ -22,6 +22,7 @@
             <div class="el-upload__tip" slot="tip" style="margin-left: 50px">只能上传xls/xlsx文件，且不超过100Mb</div>
           </el-upload>
         </el-col>
+
       </el-row>
       <el-row :gutter="20" style="margin-top: 70px" type="flex" align="middle">
         <el-col :xs="12" :sm="12" :md="12" :lg="12">
@@ -67,7 +68,7 @@
         api.executeTaskStandBook().then(res => {
           if (res.data.code === 200) {
             this.$message.info("执行任务成功！");
-          }else {
+          } else {
             this.$message.warning("执行任务失败！");
           }
         })

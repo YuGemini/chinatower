@@ -27,20 +27,20 @@
     <update id="updateStandBook">
         update standing_book
         <set>
-            <if test="standBook.region!=null">region=#{standBook.region}</if>
-            <if test="standBook.code!=null">code=#{standBook.code}</if>
-            <if test="standBook.attribute!=null">attribute=#{standBook.attribute}</if>
-            <if test="standBook.siteName!=null">site_name=#{standBook.siteName}</if>
-            <if test="standBook.contractName!=null">contract_name=#{standBook.contractName}</if>
-            <if test="standBook.phoneNumber!=null">phone_number=#{standBook.phoneNumber}</if>
-            <if test="standBook.ownerName!=null">owner_name=#{standBook.ownerName}</if>
-            <if test="standBook.contractStart!=null">contract_start=#{standBook.contractStart}</if>
-            <if test="standBook.contractEnd!=null">contract_end=#{standBook.contractEnd}</if>
-            <if test="standBook.payTime!=null">pay_time=#{standBook.payTime}</if>
-            <if test="standBook.start!=null">start=#{standBook.start}</if>
-            <if test="standBook.end!=null">end=#{standBook.end}</if>
-            <if test="standBook.rent!=null">rent=#{standBook.rent}</if>
-            <if test="standBook.tax!=null">tax=#{standBook.tax}</if>
+            <if test="standBook.region!=null">region=#{standBook.region},</if>
+            <if test="standBook.code!=null">code=#{standBook.code},</if>
+            <if test="standBook.attribute!=null">attribute=#{standBook.attribute},</if>
+            <if test="standBook.siteName!=null">site_name=#{standBook.siteName},</if>
+            <if test="standBook.contractName!=null">contract_name=#{standBook.contractName},</if>
+            <if test="standBook.phoneNumber!=null">phone_number=#{standBook.phoneNumber},</if>
+            <if test="standBook.ownerName!=null">owner_name=#{standBook.ownerName},</if>
+            <if test="standBook.contractStart!=null">contract_start=#{standBook.contractStart},</if>
+            <if test="standBook.contractEnd!=null">contract_end=#{standBook.contractEnd},</if>
+            <if test="standBook.payTime!=null">pay_time=#{standBook.payTime},</if>
+            <if test="standBook.start!=null">start=#{standBook.start},</if>
+            <if test="standBook.end!=null">end=#{standBook.end},</if>
+            <if test="standBook.rent!=null">rent=#{standBook.rent},</if>
+            <if test="standBook.tax!=null">tax=#{standBook.tax},</if>
         </set>
         where id=#{standBook.id}
     </update>
@@ -79,7 +79,7 @@
     <select id="findOverTimePayStandBook" resultType="com.vastio.bean.model.StandBook">
         select *
         FROM standing_book
-        where pay_time is null and (datediff(end, now()) &lt; 0)
+        where pay_time &gt; end or (pay_time is null and (datediff(end, now()) &lt; 0))
     </select>
     <select id="findRenewContractStandBook" resultType="com.vastio.bean.model.StandBook">
         SELECT c.*
@@ -92,26 +92,34 @@
               WHERE DATEDIFF(a.CONTRACT_END, NOW()) &lt; 60)
              b LEFT JOIN standing_book c on c.CODE = b.CODE AND c.CONTRACT_END = b.CONTRACT_END
     </select>
-    <select id="findOrderByCode" resultType="java.util.Map">
-        SELECT
-            CODE,
-            MAX(SITE_NAME) siteName,
-            SUM(RENT)      rent,
-            SUM(TAX)       tax
-        FROM standing_book
-        GROUP BY CODE
-    </select>
     <select id="findOrderByYear" resultType="java.util.Map">
         SELECT
             year,
+            region,
+            count(1)  count,
             SUM(rent) rent,
+            AVG(rent) avg_rent,
             SUM(tax)  tax
         FROM (SELECT
                   rent,
                   tax,
+                  region,
                   YEAR(PAY_TIME) year
               FROM standing_book
               WHERE PAY_TIME is not null) a
-        GROUP BY year
+        GROUP BY year, region
+        ORDER BY year, region
+    </select>
+    <select id="findOverTime" resultType="java.lang.Long">
+        select count(1) count
+        from overtime_contract
+    </select>
+    <select id="findToPay" resultType="java.lang.Long">
+        select count(1) count
+        from to_pay_contract
+    </select>
+    <select id="findRenew" resultType="java.lang.Long">
+        select count(1) count
+        from renew_contract
     </select>
 </mapper>

@@ -42,8 +42,8 @@ public class ContractService {
         return standBookMapper.findStandBook(param);
     }
 
-    public List<OverTimeContract> getOverTimeContract(String siteName) {
-        return contractMapper.getOverPayContract(siteName);
+    public List<OverTimeContract> getOverTimeContract(String siteName, Integer flag) {
+        return contractMapper.getOverPayContract(siteName, flag);
     }
 
     public List<ContractInfo> getToPayContract(String siteName) {
@@ -64,10 +64,6 @@ public class ContractService {
 
     public void updateStandBook(StandBook standBook) {
         standBookMapper.updateStandBook(standBook);
-    }
-
-    public List<Map> findOrderByCode() {
-        return standBookMapper.findOrderByCode();
     }
 
     public List<Map> findOrderByYear() {
@@ -164,4 +160,11 @@ public class ContractService {
         return notNull;
     }
 
+    public Map getCount() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("toPay", standBookMapper.findToPay());
+        map.put("renew", standBookMapper.findRenew());
+        map.put("overTime", standBookMapper.findOverTime());
+        return map;
+    }
 }

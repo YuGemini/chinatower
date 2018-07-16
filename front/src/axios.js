@@ -88,6 +88,15 @@ export default {
   },
   executeTaskStandBook() {
     return instance.put(_baseUrl + '/api/task');
+  },
+  deleteStandBook(id) {
+    return instance.delete(_baseUrl + '/api/standBook/' + id);
+  },
+  updateStandBook(data) {
+    return instance.put(_baseUrl + '/api/standBook', data);
+  },
+  getStatistic() {
+    return instance.get(_baseUrl + '/api/statistic');
   }
 
 };

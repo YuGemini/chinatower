@@ -4,10 +4,7 @@ import store from '../store/index.js'
 import Login from '@/components/common/Login'
 import Home from '@/components/common/Home';
 import StatisticCharts from '@/components/page/StatisticCharts';
-import AmCharts from '@/components/page/BasicCharts';
 import SystemControl from '@/components/page/SystemControl';
-import FormLayouts from '@/components/page/FormLayouts';
-import BasicTables from '@/components/page/BasicTables';
 import StandBook from '@/components/page/StandBook';
 import ToPayContract from '@/components/page/ToPayContract';
 import RenewContract from '@/components/page/RenewContract';
@@ -63,33 +60,13 @@ const router = new Router({
           meta: {
             requiresAuth: true
           }
-        }, {
-          path: '/BasicCharts',
-          component: AmCharts,
-          meta: {
-            requiresAuth: true
-          }
-        }, {
+        },{
           path: '/SystemControl',
           component: SystemControl,
           meta: {
             requiresAuth: true
           }
-        }, {
-          path: '/FormLayouts',
-          component: FormLayouts,
-          meta: {
-            requiresAuth: true
-          }
-        }, {
-          path: '/BasicTables',
-          component: BasicTables,
-          meta: {
-            requiresAuth: true
-          }
         }
-
-
       ]
     }
   ]

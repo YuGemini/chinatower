@@ -15,6 +15,11 @@ const mutations = {
     //登出的时候要清除token
     state.token = null;
     window.sessionStorage.removeItem('token');
+  },
+  [types.STATISTIC]: (state, data) => {
+    //获取用户信息
+    state.statistic = data;
+    window.localStorage.setItem('statistic', JSON.stringify(data));
   }
 };
 

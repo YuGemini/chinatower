@@ -5,10 +5,22 @@
         <el-col :xs="3" :sm="3" :md="3" :lg="3">
           <span class="customFont" style="margin-left: 30px">站点名称 :</span>
         </el-col>
-        <el-col :xs="10" :sm="10" :md="10" :lg="10">
+        <el-col :xs="9" :sm="9" :md="9" :lg="9">
           <Input v-model="filter.siteName" style="width: 200px">
           <Button slot="append" icon="ios-search" @click="search"></Button>
           </Input>
+        </el-col>
+        <el-col :xs="3" :sm="3" :md="3" :lg="3">
+          <span class="customFont" style="margin-left: 30px">站点名称 :</span>
+        </el-col>
+        <el-col :xs="7" :sm="7" :md="7" :lg="7">
+          <el-select v-model="filter.flag" placeholder="请选择" @change="selChange">
+            <el-option label="未付款" value="0"></el-option>
+            <el-option label="已付款" value="1"></el-option>
+          </el-select>
+        </el-col>
+        <el-col :xs="2" :sm="2" :md="2" :lg="2">
+          <Button type="primary" @click="reset">重置</Button>
         </el-col>
       </el-row>
     </div>
@@ -46,7 +58,9 @@
               <el-form-item label="结束时间">
                 <span>{{ props.row.end|formatDate }}</span>
               </el-form-item>
-
+              <el-form-item label="付款时间">
+                <span>{{ props.row.payTime|formatDate }}</span>
+              </el-form-item>
             </el-form>
           </template>
         </el-table-column>
@@ -61,15 +75,6 @@
         <el-table-column
           label="合同名称"
           prop="contractName">
-        </el-table-column>
-        <el-table-column
-          fixed="right"
-          label="操作"
-          width="100">
-          <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">删除</el-button>
-          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -115,6 +120,13 @@
 
   export default {
     methods: {
+      reset() {
+        this.filter.siteName = '';
+        this.filter.flag = '';
+      },
+      selChange() {
+        this.search();
+      },
       handleClick(row) {
         console.log(row);
       },
@@ -134,10 +146,10 @@
         this.filter.curPage = val;
         this.getStandBookList({params: this.filter});
       },
-      search(){
-        if(this.filter.curPage===1){
+      search() {
+        if (this.filter.curPage === 1) {
           this.getStandBookList({params: this.filter});
-        }else{
+        } else {
           this.filter.curPage = 1;
         }
       }
@@ -146,16 +158,20 @@
       return {
         standBookList: [],
         total: 0,
-        filter:{
+        filter: {
           curPage: 1,
           pageSize: 10,
           siteName: '',
+          flag: ''
         }
       }
     },
     filters: {
       //时间格式化
       formatDate(allupdatetime) {
+        if (allupdatetime === null || allupdatetime === '') {
+          return ''
+        }
         var date = new Date(allupdatetime);
         return moment(date).format('YYYY-MM-DD');
       }

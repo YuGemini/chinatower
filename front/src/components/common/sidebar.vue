@@ -19,7 +19,6 @@
         <el-menu-item index="ToPayContract">待付款合同信息</el-menu-item>
         <el-menu-item index="RenewContract">待续约合同信息</el-menu-item>
         <el-menu-item index="OverTimeContract">逾期未付款合同信息</el-menu-item>
-        <el-menu-item index="BasicCharts">逾期未付款合同信息</el-menu-item>
 
 
       </el-submenu>

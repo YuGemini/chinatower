@@ -31,25 +31,11 @@ public class ScheduledService {
     public void timer() {
         contractMapper.deleteAllToPayContract();
         contractMapper.deleteAllRenewContract();
+        contractMapper.deleteAllOverTimeContract();
         if (!standBookMapper.findToPayStandBook().isEmpty())
             contractMapper.createToPayContract(standBookMapper.findToPayStandBook());
-        List<StandBook> standBookList = standBookMapper.findOverTimePayStandBook();
-        List<OverTimeContract> newOverTime = new ArrayList<>();
-        standBookList.forEach(e -> {
-            OverTimeContract overTimeContract = new OverTimeContract();
-            overTimeContract.setCode(e.getCode());
-            overTimeContract.setContractEnd(e.getContractEnd());
-            overTimeContract.setContractStart(e.getContractStart());
-            overTimeContract.setContractName(e.getContractName());
-            overTimeContract.setRegion(e.getRegion());
-            overTimeContract.setSiteName(e.getSiteName());
-            overTimeContract.setStart(e.getStart());
-            overTimeContract.setEnd(e.getEnd());
-        });
-        List<OverTimeContract> oldOverTime = contractMapper.getOverPayContract("");
-        newOverTime.removeAll(oldOverTime);
-        if (!newOverTime.isEmpty())
-            contractMapper.createOverTimeContract(newOverTime);
+        if (!standBookMapper.findOverTimePayStandBook().isEmpty())
+            contractMapper.createOverTimeContract(standBookMapper.findOverTimePayStandBook());
         if (!standBookMapper.findRenewContractStandBook().isEmpty())
             contractMapper.createRenewContract(standBookMapper.findRenewContractStandBook());
     }

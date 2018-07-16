@@ -6,39 +6,13 @@
 
     <el-row :gutter="20">
 
-      <el-col :xs="12" :sm="12" :md="12" :lg="6">
+      <el-col :xs="8" :sm="8" :md="8" :lg="8">
         <el-card class="box-card">
           <el-row :gutter="6">
-            <el-col :xs="24" :sm="8" :md="8" :lg="8">
-              <el-progress type="circle" :percentage="67" :width="80"></el-progress>
-            </el-col>
             <el-col :xs="24" :sm="11" :md="12" :lg="12">
               <div class="cart-string">
-                <span>New Visits</span>
-                <span><h2>57,820</h2></span>
-              </div>
-            </el-col>
-            <el-col :xs="24" :sm="5" :md="4" :lg="4">
-              <div>
-                <i class="material-icons">person_outline</i>
-              </div>
-            </el-col>
-          </el-row>
-        </el-card>
-      </el-col>
-
-      <el-col :xs="12" :sm="12" :md="12" :lg="6">
-        <el-card class="box-card">
-          <el-row :gutter="6">
-            <el-col :xs="24" :sm="8" :md="8" :lg="8">
-              <div>
-                <el-progress type="circle" :percentage="81" :width="80"></el-progress>
-              </div>
-            </el-col>
-            <el-col :xs="24" :sm="11" :md="12" :lg="12">
-              <div class="cart-string">
-                <span>Purchases</span>
-                <span><h2>$1,680</h2></span>
+                <span>待付款合同</span>
+                <span @click="toPayClick()" style="cursor:pointer"><h2 style="color: #7272d2;">{{topay}}</h2></span>
               </div>
             </el-col>
             <el-col :xs="24" :sm="5" :md="4" :lg="4">
@@ -50,47 +24,37 @@
         </el-card>
       </el-col>
 
-      <el-col :xs="12" :sm="12" :md="12" :lg="6">
+      <el-col :xs="8" :sm="8" :md="8" :lg="8">
         <el-card class="box-card">
           <el-row :gutter="6">
-            <el-col :xs="24" :sm="8" :md="8" :lg="8">
-              <div>
-                <el-progress type="circle" :percentage="30" :width="80"></el-progress>
-              </div>
-            </el-col>
             <el-col :xs="24" :sm="11" :md="12" :lg="12">
               <div class="cart-string">
-                <span>Active Users</span>
-                <span><h2>157,820</h2></span>
+                <span>待续签合同</span>
+                <span @click="renewClick()" style="cursor:pointer"><h2 style="color: rgb(214, 182, 24);">{{renew}}</h2></span>
               </div>
             </el-col>
             <el-col :xs="24" :sm="5" :md="4" :lg="4">
               <div>
-                <i class="material-icons">touch_app</i>
+                <i class="material-icons">attach_money</i>
               </div>
             </el-col>
           </el-row>
         </el-card>
       </el-col>
 
-
-      <el-col :xs="12" :sm="12" :md="12" :lg="6">
+      <el-col :xs="8" :sm="8" :md="8" :lg="8">
         <el-card class="box-card">
           <el-row :gutter="6">
-            <el-col :xs="24" :sm="8" :md="8" :lg="8">
-              <div>
-                <el-progress type="circle" :percentage="88" :width="80"></el-progress>
-              </div>
-            </el-col>
             <el-col :xs="24" :sm="11" :md="12" :lg="12">
               <div class="cart-string">
-                <span>Returned</span>
-                <span><h2>32,645</h2></span>
+                <span>逾期付款合同</span>
+                <span @click="overtimeClick()" style="cursor:pointer"><h2
+                  style="color: rgb(214,19,46);">{{overtime}}</h2></span>
               </div>
             </el-col>
             <el-col :xs="24" :sm="5" :md="4" :lg="4">
               <div>
-                <i class="material-icons">replay</i>
+                <i class="material-icons">attach_money</i>
               </div>
             </el-col>
           </el-row>
@@ -102,40 +66,27 @@
     <el-row :gutter="20">
       <el-col :xs="24" :sm="24" :md="24" :lg="12">
         <el-card class="box-chart">
-          <pieChart></pieChart>
+          <pieRentChart></pieRentChart>
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="24" :lg="12">
         <el-card class="box-chart">
-          <lineChart></lineChart>
+          <pieCountChart></pieCountChart>
         </el-card>
       </el-col>
 
     </el-row>
 
 
-    <!--todoList  & mail & table-->
     <el-row :gutter="20">
-      <el-col :xs="24" :sm="24" :md="24" :lg="8">
-        <el-card class="box-list">
-          To Do List
-          <hr>
-          <TodoList></TodoList>
+      <el-col :xs="24" :sm="24" :md="24" :lg="12">
+        <el-card class="box-chart">
+          <lineAvgChart></lineAvgChart>
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="24" :lg="10">
-        <el-card class="box-list">
-          BORDERED TABLE
-          <hr>
-          <borderTable></borderTable>
-        </el-card>
-      </el-col>
-
-      <el-col :xs="24" :sm="24" :md="24" :lg="6">
-        <el-card class="box-list">
-          Message List
-          <hr>
-          <MessageList></MessageList>
+      <el-col :xs="24" :sm="24" :md="24" :lg="12">
+        <el-card class="box-chart">
+          <lineTaxChart></lineTaxChart>
         </el-card>
       </el-col>
 
@@ -148,24 +99,51 @@
 
 <script>
   import vPageTitle from '../common/pageTitle.vue';
-  import barChart from '../charts/barChart.vue';
-  import pieChart from '../charts/pieChart.vue';
-  import lineChart from '../charts/lineChart.vue';
-  import radarChart from '../charts/radarChart.vue';
-  import funnelChart from '../charts/funnelChart.vue';
-  import TodoList from '../todoList/TodoList.vue';
-  import borderTable from '../tables/borderTable.vue';
-  import MessageList from '../message/MessageList.vue';
+  import pieRentChart from '../charts/pieRentChart.vue';
+  import pieCountChart from '../charts/pieCountChart.vue';
+  import lineTaxChart from '../charts/lineTaxChart.vue';
+  import lineAvgChart from '../charts/lineAvgChart.vue';
 
   export default {
     data() {
       return {
-        //percentage:10
+        statistic: {},
+        topay: 0,
+        renew: 0,
+        overtime: 0
       }
     },
     components: {
-      vPageTitle, barChart, pieChart, lineChart, radarChart, funnelChart, TodoList, borderTable, MessageList
+      vPageTitle,
+      pieRentChart,
+      pieCountChart,
+      lineAvgChart,
+      lineTaxChart
+    },
+    mounted() {
+      this.statistic = JSON.parse(window.localStorage.getItem("statistic"));
+      this.topay = this.statistic.toPay;
+      this.renew = this.statistic.renew;
+      this.overtime = this.statistic.overTime;
+    },
+    methods: {
+      toPayClick() {
+        this.$router.push({
+          path: '/ToPayContract'
+        });
+      },
+      renewClick() {
+        this.$router.push({
+          path: '/RenewContract'
+        });
+      },
+      overtimeClick() {
+        this.$router.push({
+          path: '/OverTimeContract'
+        });
+      }
     }
+
   }
 </script>
 

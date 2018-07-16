@@ -43,7 +43,7 @@ public class DruidConfig {
         dataSource.setPassword(password);
         dataSource.setMaxActive(20);
         dataSource.setMaxWait(2000);
-        dataSource.setFilters("stat,wall");
+        dataSource.setFilters("stat");
         return dataSource;
     }
 

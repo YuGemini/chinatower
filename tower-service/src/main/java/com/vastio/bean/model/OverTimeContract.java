@@ -18,6 +18,7 @@ public class OverTimeContract {
     private String contractName;
     private Date contractStart;
     private Date contractEnd;
+    private Date payTime;
     private Date start;
     private Date end;
 }

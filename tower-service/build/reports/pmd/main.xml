@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="5.6.1" timestamp="2018-07-13T00:52:46.733">
+<pmd version="5.6.1" timestamp="2018-07-16T11:23:59.716">
+<file name="D:\chenxiaoyu\chinatower\tower-service\src\main\java\com\vastio\controller\StandBookController.java">
+<violation beginline="186" endline="186" begincolumn="24" endcolumn="40" rule="AvoidDecimalLiteralsInBigDecimalConstructor" ruleset="Basic" package="com.vastio.controller" class="StandBookController" method="transfor" externalInfoUrl="https://pmd.github.io/pmd-5.6.1/pmd-java/rules/java/basic.html#AvoidDecimalLiteralsInBigDecimalConstructor" priority="3">
+Avoid creating BigDecimal with a decimal (float/double) literal. Use a String literal
+</violation>
+</file>
 </pmd>
