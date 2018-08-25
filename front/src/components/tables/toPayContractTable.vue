@@ -40,12 +40,6 @@
               <el-form-item label="合同结束时间">
                 <span>{{ props.row.contractEnd|formatDate}}</span>
               </el-form-item>
-              <el-form-item label="开始时间">
-                <span>{{ props.row.start|formatDate }}</span>
-              </el-form-item>
-              <el-form-item label="结束时间">
-                <span>{{ props.row.end|formatDate }}</span>
-              </el-form-item>
               <el-form-item label="ID" style="display:none">
                 <span>{{ props.row.id }}</span>
               </el-form-item>

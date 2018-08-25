@@ -1,5 +1,5 @@
 <template>
-  <div class="c-charts">
+  <div class="c-charts" v-cloak>
     <IEcharts :option="line"></IEcharts>
   </div>
 
@@ -11,11 +11,12 @@
   import IEcharts from 'vue-echarts-v3';
 
   export default {
+    props:['statistic'],
     components: {
       vPageTitle, IEcharts
     },
     data: () => ({
-      statistic: {},
+      //statistic: {},
       line: {
         title: {
           text: '税金统计图'
@@ -60,8 +61,8 @@
         series: []
       }
     }),
-    mounted() {
-      this.statistic = JSON.parse(window.localStorage.getItem("statistic"));
+    created() {
+      //this.statistic = JSON.parse(window.localStorage.getItem("statistic"));
       this.line.legend.data = this.statistic.region;
       this.line.xAxis[0].data = this.statistic.year;
       var a = [];
@@ -80,7 +81,7 @@
         a.push(m);
       }
       this.line.series = a;
-      console.log(JSON.stringify(this.line));
+      //console.log(JSON.stringify(this.line));
     },
     methods: {}
   }

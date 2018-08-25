@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-cloak>
     <v-pageTitle vtitle="统计图表"></v-pageTitle>
 
     <div class="clear"></div>
@@ -66,12 +66,12 @@
     <el-row :gutter="20">
       <el-col :xs="24" :sm="24" :md="24" :lg="12">
         <el-card class="box-chart">
-          <pieRentChart></pieRentChart>
+          <pieRentChart :statistic="statistic"></pieRentChart>
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="24" :lg="12">
         <el-card class="box-chart">
-          <pieCountChart></pieCountChart>
+          <pieCountChart :statistic="statistic"></pieCountChart>
         </el-card>
       </el-col>
 
@@ -81,12 +81,12 @@
     <el-row :gutter="20">
       <el-col :xs="24" :sm="24" :md="24" :lg="12">
         <el-card class="box-chart">
-          <lineAvgChart></lineAvgChart>
+          <lineAvgChart :statistic="statistic"></lineAvgChart>
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="24" :lg="12">
         <el-card class="box-chart">
-          <lineTaxChart></lineTaxChart>
+          <lineTaxChart :statistic="statistic"></lineTaxChart>
         </el-card>
       </el-col>
 
@@ -103,14 +103,16 @@
   import pieCountChart from '../charts/pieCountChart.vue';
   import lineTaxChart from '../charts/lineTaxChart.vue';
   import lineAvgChart from '../charts/lineAvgChart.vue';
+  import api from '../../axios.js';
 
   export default {
+    inject: ['reload'],
     data() {
       return {
         statistic: {},
         topay: 0,
         renew: 0,
-        overtime: 0
+        overtime: 0,
       }
     },
     components: {
@@ -121,12 +123,33 @@
       lineTaxChart
     },
     mounted() {
-      this.statistic = JSON.parse(window.localStorage.getItem("statistic"));
-      this.topay = this.statistic.toPay;
-      this.renew = this.statistic.renew;
-      this.overtime = this.statistic.overTime;
+    },
+    created() {
+      if (window.localStorage.getItem("statistic") == null) {
+        this.getStatisticData();
+      } else {
+        this.statistic = JSON.parse(window.localStorage.getItem("statistic"));
+        this.topay = this.statistic.toPay;
+        this.renew = this.statistic.renew;
+        this.overtime = this.statistic.overTime;
+      }
+
     },
     methods: {
+      getStatisticData() {
+        api.getStatistic()
+          .then(data => {
+            let statistic = data.data.results[0];
+            this.statistic = statistic;
+            this.topay = this.statistic.toPay;
+            this.renew = this.statistic.renew;
+            this.overtime = this.statistic.overTime;
+            this.$store.commit('Statistic', statistic);
+            location.reload();
+          }).catch(err => {
+          console.log(err)
+        })
+      },
       toPayClick() {
         this.$router.push({
           path: '/ToPayContract'

@@ -1,5 +1,5 @@
 <template>
-  <div class="c-charts">
+  <div class="c-charts" v-cloak>
     <IEcharts :option="pie"></IEcharts>
   </div>
 
@@ -11,11 +11,12 @@
   import IEcharts from 'vue-echarts-v3';
 
   export default {
+    props:['statistic'],
     components: {
       vPageTitle, IEcharts
     },
     data: () => ({
-      statistic: {},
+      //statistic: {},
       pie: {
         title: {
           text: '合同数量统计图'
@@ -58,12 +59,12 @@
         ]
       }
     }),
-    mounted() {
-      this.statistic = JSON.parse(window.localStorage.getItem("statistic"));
+    created() {
+      //this.statistic = JSON.parse(window.localStorage.getItem("statistic"));
       this.pie.legend.data = this.statistic.countName;
       this.pie.series[0].data = this.statistic.innerCount;
       this.pie.series[1].data = this.statistic.outCount;
-      console.log(this.pie);
+      //console.log(this.pie);
     },
     methods: {}
   }

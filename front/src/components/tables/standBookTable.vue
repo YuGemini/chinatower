@@ -5,7 +5,7 @@
         <el-col :xs="3" :sm="3" :md="3" :lg="3">
           <span class="customFont">所属区域 :</span>
         </el-col>
-        <el-col :xs="7" :sm="7" :md="7" :lg="7">
+        <el-col :xs="5" :sm="5" :md="5" :lg="5">
           <el-select v-model="filter.region" placeholder="请选择区域">
             <el-option label="乐平市" value="乐平市"></el-option>
             <el-option label="昌江区" value="昌江区"></el-option>
@@ -16,7 +16,7 @@
         <el-col :xs="3" :sm="3" :md="3" :lg="3">
           <span class="customFont">站点编码 :</span>
         </el-col>
-        <el-col :xs="7" :sm="7" :md="7" :lg="7">
+        <el-col :xs="5" :sm="5" :md="5" :lg="5">
           <Input v-model="filter.code" style="width: 200px">
           </Input>
         </el-col>
@@ -25,7 +25,7 @@
         <el-col :xs="3" :sm="3" :md="3" :lg="3">
           <span class="customFont">站点名称 :</span>
         </el-col>
-        <el-col :xs="7" :sm="7" :md="7" :lg="7">
+        <el-col :xs="5" :sm="5" :md="5" :lg="5">
           <Input v-model="filter.siteName" style="width: 200px">
           </Input>
         </el-col>
@@ -39,7 +39,8 @@
                       @on-change="handleChange"
                       placement="bottom-end"
                       placeholder="选择时间范围"
-                      style="width: 200px"></DatePicker>
+                      size="large"
+                      style="width: 200px;height:40px"></DatePicker>
           </Input>
         </el-col>
         <el-col :xs="2" :sm="2" :md="2" :lg="2">
@@ -48,7 +49,11 @@
         <el-col :xs="2" :sm="2" :md="2" :lg="2">
           <Button type="primary" @click="reset">重置</Button>
         </el-col>
+        <el-col :xs="2" :sm="2" :md="2" :lg="2">
+          <Button type="primary" @click="exportData">导出</Button>
+        </el-col>
       </el-row>
+
     </div>
     <div>
       <el-dialog title="台账信息" :visible.sync="dialogFormVisible" @close="closeDialog">
@@ -257,6 +262,10 @@
     width: 50%;
   }
 
+  .el-select .el-input {
+    width: 200px !important;
+  }
+
   .el-pagination {
     float: right;
     margin-top: 15px;
@@ -334,6 +343,21 @@
         } else {
           this.filter.curPage = 1;
         }
+      },
+      exportData() {
+        api.exportData(this.filter).then((res) => {
+          let fileName = '台账.xlsx'
+          let blob = new Blob([res.data], {type: 'application/x-xlsx'})
+          if (window.navigator.msSaveOrOpenBlob) {
+            navigator.msSaveBlob(blob, fileName);
+          } else {
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+          }
+        })
       },
       reset() {
         this.time = [];

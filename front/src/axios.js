@@ -10,7 +10,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 //创建一个axios实例
 const instance = axios.create();
 //const _baseUrl = '/tower';
-const _baseUrl = 'http://203.195.152.87/'
+const _baseUrl = 'http://132.232.12.102/'
 instance.defaults.headers.get['Content-Type'] = 'application/json;charset=UTF-8';
 axios.interceptors.request.use = instance.interceptors.request.use;
 
@@ -97,6 +97,9 @@ export default {
   },
   getStatistic() {
     return instance.get(_baseUrl + '/api/statistic');
+  },
+  exportData() {
+    return instance.get(_baseUrl + '/api/export', {responseType: 'blob'});
   }
 
 };

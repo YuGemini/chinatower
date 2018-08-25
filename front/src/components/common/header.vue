@@ -11,7 +11,7 @@
       <el-col :xs="12" :sm="12" :md="12">
         <div class="user-header">
           <el-dropdown trigger="click" menu-align="start">
-            <img src="../../../static/images/b_header.jpg" width="50px"/>
+            <img src="../../../static/images/themes_tower_images_echart.jpg" width="50px"/>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
                 <div class="setting-div">

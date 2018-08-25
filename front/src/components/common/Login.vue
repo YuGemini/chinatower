@@ -89,14 +89,13 @@
                   let token = data.results[0].token;
                   //let username = data.username;
                   this.$store.commit('UserLogin', token);
-                  this.getStatistic();
                   //this.$store.commit('UserName', username);
-                  //如果用户手动输入"/"那么会跳转到这里来，即this.$route.query.redirect有参数
                   let redirectUrl = decodeURIComponent(this.$route.query.redirect || '/')
                   //跳转到指定的路由
                   this.$router.push({
                     path: redirectUrl
                   });
+                  //如果用户手动输入"/"那么会跳转到这里来，即this.$route.query.redirect有参数
                   //this.getPersonMes()
                 } else {
                   //alert('登录失败')
@@ -111,15 +110,6 @@
       },
       formLoginReset(name) {
         this.$refs[name].resetFields();
-      },
-      getStatistic() {
-        api.getStatistic()
-          .then(data => {
-            let statistic = data.data.results[0];
-            this.$store.commit('Statistic', statistic);
-          }).catch(err => {
-          console.log(err)
-        })
       }
     }
   };
