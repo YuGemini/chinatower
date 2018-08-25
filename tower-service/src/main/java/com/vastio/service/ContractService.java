@@ -3,7 +3,6 @@ package com.vastio.service;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.vastio.VastioException;
-import com.vastio.bean.model.ContractInfo;
 import com.vastio.bean.model.OverTimeContract;
 import com.vastio.bean.model.RenewContract;
 import com.vastio.bean.model.StandBook;
@@ -46,7 +45,7 @@ public class ContractService {
         return contractMapper.getOverPayContract(siteName, flag);
     }
 
-    public List<ContractInfo> getToPayContract(String siteName) {
+    public List<RenewContract> getToPayContract(String siteName) {
         return contractMapper.getToPayContract(siteName);
     }
 

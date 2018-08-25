@@ -72,9 +72,14 @@
         </where>
     </select>
     <select id="findToPayStandBook" resultType="com.vastio.bean.model.StandBook">
-        select *
-        FROM standing_book
-        where pay_time is null and (datediff(end, now()) between 0 and 60)
+        SELECT
+        *,MAX(CONTRACT_END),DATEDIFF(STR_TO_DATE(CONCAT(YEAR(NOW()),'-',DATE_FORMAT(CONTRACT_END,'%m-%d')),'%Y-%m-%d'),NOW())
+        num FROM standing_book
+        where CONTRACT_END > NOW()
+        AND NOW() > CONTRACT_START
+        AND DATEDIFF(STR_TO_DATE(CONCAT(YEAR(NOW()),'-',DATE_FORMAT(CONTRACT_END,'%m-%d')),'%Y-%m-%d'),NOW()) BETWEEN 1
+        AND 59
+        GROUP BY CODE
     </select>
     <select id="findOverTimePayStandBook" resultType="com.vastio.bean.model.StandBook">
         select *

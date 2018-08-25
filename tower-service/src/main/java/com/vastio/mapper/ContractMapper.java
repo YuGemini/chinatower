@@ -1,6 +1,5 @@
 package com.vastio.mapper;
 
-import com.vastio.bean.model.ContractInfo;
 import com.vastio.bean.model.OverTimeContract;
 import com.vastio.bean.model.RenewContract;
 import com.vastio.bean.model.StandBook;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @Repository
 public interface ContractMapper {
-    List<ContractInfo> getToPayContract(@Param("siteName") String siteName);
+    List<RenewContract> getToPayContract(@Param("siteName") String siteName);
 
     List<OverTimeContract> getOverPayContract(@Param("siteName") String siteName,
                                               @Param("flag") Integer flag);

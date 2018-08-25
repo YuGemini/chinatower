@@ -3,13 +3,12 @@
 <mapper namespace="com.vastio.mapper.ContractMapper">
     <insert id="createToPayContract">
         INSERT INTO to_pay_contract
-        (region, code, site_name,contract_name,contract_start,contract_end,start,end)
+        (region, code, site_name,contract_name,contract_start,contract_end)
         VALUES
         <foreach collection="list" item="standBook" separator=",">
             (#{standBook.region}, #{standBook.code},
             #{standBook.siteName},#{standBook.contractName},
-            #{standBook.contractStart},#{standBook.contractEnd},
-            #{standBook.start},#{standBook.end})
+            #{standBook.contractStart},#{standBook.contractEnd})
         </foreach>
     </insert>
     <insert id="createOverTimeContract">
@@ -42,7 +41,7 @@
     <delete id="deleteAllOverTimeContract">
         delete from overtime_contract
     </delete>
-    <select id="getToPayContract" resultType="com.vastio.bean.model.ContractInfo">
+    <select id="getToPayContract" resultType="com.vastio.bean.model.RenewContract">
         select * from to_pay_contract
         <where>
             <if test="siteName != null and siteName != ''">
